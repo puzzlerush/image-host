@@ -9,6 +9,10 @@ const imageSchema = new mongoose.Schema({
     file: {
         type: Buffer,
         required: true
+    },
+    author: {
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User'
     }
 }, {
     timestamps: true
