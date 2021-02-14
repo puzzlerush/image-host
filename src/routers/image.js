@@ -28,6 +28,17 @@ router.post('/', optionalAuth, upload.single('image'), async (req, res) => {
     }
 })
 
+router.get('/all', async (req, res) => {
+    try {
+        const limit = parseInt(req.query.limit)
+        const skip = parseInt(req.query.skip)
+        const images = await Image.find({}).limit(limit).skip(skip)
+        res.send(images)
+    } catch (e) {
+        res.status(400).send(e)
+    }
+})
+
 router.get('/:id', async (req, res) => {
     try {
         const image = await Image.findById(req.params.id)
