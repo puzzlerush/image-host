@@ -52,6 +52,19 @@ router.get('/:name', async (req, res) => {
     }
 })
 
+router.get('/:name/images', async (req, res) => {
+    try {
+        const user = await User.findOne({ name: req.params.name.toLowerCase() })
+        if (!user) {
+            return res.status(404).send()
+        }
+        await user.populate({ path: 'images' }).execPopulate()
+        res.send(user.images)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+})
+
 router.put('/me', auth, async (req, res) => {
     const updates = Object.keys(req.body)
     const allowedUpdates = ['name', 'password']

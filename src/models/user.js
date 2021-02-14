@@ -19,6 +19,12 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 })
 
+userSchema.virtual('images', {
+    ref: 'Image',
+    localField: '_id',
+    foreignField: 'author'
+})
+
 userSchema.methods.toJSON = function () {
     const user = this
     const userObj = user.toObject()
