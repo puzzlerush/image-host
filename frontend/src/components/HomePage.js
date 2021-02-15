@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import ImageList from './ImageList';
 
 const HomePage = () => {
   const [images, setImages] = useState([]);
@@ -12,18 +13,12 @@ const HomePage = () => {
     fetchImages();
   }, []);
 
-  const imagesToDisplay = images.map((image) => (
-    <div key={image._id}>
-      <p>{image.title}</p>
-      <p>Posted on {image.createdAt} by {image.author.name}</p>
-      <a href={`http://localhost:5000/images/${image._id}/file`}>View</a>
-    </div>
-  ))
+  
   return (
     <div>
-      {imagesToDisplay}
+      <ImageList images={images}/>
     </div>
   );
-}
+};
 
 export default HomePage;
