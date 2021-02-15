@@ -32,7 +32,7 @@ router.get('/all', async (req, res) => {
     try {
         const limit = parseInt(req.query.limit)
         const skip = parseInt(req.query.skip)
-        const images = await Image.find({}).limit(limit).skip(skip)
+        const images = await Image.find({}).limit(limit).skip(skip).sort({ 'createdAt': -1 })
         res.send(images)
     } catch (e) {
         res.status(400).send(e)

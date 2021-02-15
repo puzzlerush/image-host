@@ -25,14 +25,17 @@ imageSchema.methods.toJSON = function () {
     return imageObj
 }
 
-imageSchema.pre('find', function (next) {
+const populateAuthor = function (next) {
     const images = this
     images.populate({
         path: 'author',
         select: 'name'
     })
     next()
-})
+}
+
+imageSchema.pre('find', populateAuthor)
+imageSchema.pre('findOne', populateAuthor)
 
 const Image = new mongoose.model('Image', imageSchema)
 

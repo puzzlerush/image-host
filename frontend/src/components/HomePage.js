@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import ImageList from './ImageList';
+import ImageGrid from './ImageGrid';
 
 const HomePage = () => {
   const [images, setImages] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchImages = async () => {
       const response = await axios.get('/images/all')
       setImages(response.data);
+      setLoading(false);
     };
     fetchImages();
   }, []);
@@ -16,7 +17,7 @@ const HomePage = () => {
   
   return (
     <div>
-      <ImageList images={images}/>
+      <ImageGrid images={images} loading={loading}/>
     </div>
   );
 };
