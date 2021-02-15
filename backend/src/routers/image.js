@@ -22,7 +22,7 @@ router.post('/', optionalAuth, upload.single('image'), async (req, res) => {
             image.author = req.user._id
         }
         await image.save()
-        res.status(201).send()
+        res.status(201).send(image)
     } catch (e) {
         res.status(400).send(e)
     }

@@ -11,7 +11,7 @@ const imageSchema = new mongoose.Schema({
         required: true
     },
     author: {
-        type: mongoose.Schema.Types.ObjectId, 
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }
 }, {
@@ -24,6 +24,15 @@ imageSchema.methods.toJSON = function () {
     delete imageObj.file
     return imageObj
 }
+
+imageSchema.pre('find', function (next) {
+    const images = this
+    images.populate({
+        path: 'author',
+        select: 'name'
+    })
+    next()
+})
 
 const Image = new mongoose.model('Image', imageSchema)
 
