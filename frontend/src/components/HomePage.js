@@ -5,12 +5,14 @@ import ImageGrid from './ImageGrid';
 const HomePage = () => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  const fetchImages = async () => {
+    const response = await axios.get('/images/all')
+    setImages(response.data);
+    setLoading(false);
+  };
+  
   useEffect(() => {
-    const fetchImages = async () => {
-      const response = await axios.get('/images/all')
-      setImages(response.data);
-      setLoading(false);
-    };
     fetchImages();
   }, []);
 

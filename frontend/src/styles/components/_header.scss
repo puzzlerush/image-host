@@ -5,3 +5,17 @@ header {
     font-size: 2em;
     padding: 20px 10vw;
 }
+
+.header-username {
+    font-family: Verdana;
+    font-size: 0.55em;
+    line-height: 1em;
+    margin-right: 10px;
+}
+
+@media (max-width: 450px) {
+    header {
+        font-size: 1.5em;
+        padding: 20px 5vw;
+    }
+}
