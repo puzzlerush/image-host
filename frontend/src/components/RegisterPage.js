@@ -5,14 +5,16 @@ import { Button } from '@material-ui/core';
 import axios from '../axios-config';
 import { login } from '../actions/auth';
 
-const LoginPage = ({ login }) => {
+const RegisterPage = ({ login }) => {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+
     const [message, setMessage] = useState('');
 
     useEffect(() => {
         setMessage('');
-    }, [name, password])
+    }, [name, password, confirmPassword])
 
     let history = useHistory();
     const handleSubmit = async (e) => {
@@ -20,17 +22,22 @@ const LoginPage = ({ login }) => {
         if (!name) {
             setMessage('Please fill in your username');
         } else if (!password) {
-            setMessage('Please fill in your password')
+            setMessage('Please fill in your password');
+        } else if (!confirmPassword) {
+            setMessage('Please confirm your password');
+        } else if (password !== confirmPassword) {
+            setMessage('Passwords do not match');
         } else {
             try {
-                const response = await axios.post('/users/login', { name, password });
+                const response = await axios.post('/users/register', { name, password });
                 axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
                 login(response.data);
                 history.push('/');
             } catch (e) {
-                setMessage('Unable to login')
+                setMessage(e.message);
             }
         }
+
     }
 
     return (
@@ -48,8 +55,14 @@ const LoginPage = ({ login }) => {
                     placeholder="password"
                     onChange={(e) => setPassword(e.target.value)}
                 />
+                <input
+                    type="password"
+                    value={confirmPassword}
+                    placeholder="confirm password"
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                />
                 <Button type="submit" variant="contained">
-                    Login
+                    Register
                 </Button>
                 {message && <div className="error alert">{message}</div>}
             </form>
@@ -59,6 +72,6 @@ const LoginPage = ({ login }) => {
 
 const mapDispatchToProps = (dispatch) => ({
     login: (data) => dispatch(login(data))
-});
+})
 
-export default connect(undefined, mapDispatchToProps)(LoginPage);
+export default connect(undefined, mapDispatchToProps)(RegisterPage);

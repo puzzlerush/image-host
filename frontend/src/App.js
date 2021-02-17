@@ -3,6 +3,7 @@ import { Container } from '@material-ui/core';
 import Header from './components/Header';
 import HomePage from './components/HomePage';
 import LoginPage from './components/LoginPage';
+import RegisterPage from './components/RegisterPage';
 import ImagePostPage from './components/ImagePostPage';
 import UploadPage from './components/UploadPage';
 
@@ -22,6 +23,9 @@ const App = () => {
             </Route>
             <Route path="/login">
               <LoginPage />
+            </Route>
+            <Route path="/register">
+              <RegisterPage />
             </Route>
             <Route path="/images/:id">
               <ImagePostPage />

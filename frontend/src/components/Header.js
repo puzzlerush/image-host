@@ -49,11 +49,19 @@ const Header = ({ isAuthenticated, username, logout }) => {
         ) : (
             <>
               <Button
+                style={{ marginRight: 10 }}
                 variant="contained"
                 color="default"
                 onClick={() => history.push('/login')}
               >
                 Login
+              </Button>
+              <Button
+                variant="contained"
+                color="default"
+                onClick={() => history.push('/register')}
+              >
+                Register
               </Button>
             </>
           )}
