@@ -2,19 +2,30 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import { logout } from '../actions/auth';
+import axios from '../axios-config';
+import useWindowDimensions from '../hooks/dimensions';
 
 const Header = ({ isAuthenticated, username, logout }) => {
   let history = useHistory();
+  const { width } = useWindowDimensions();
   return (
     <header>
       ImageHub
       <span style={{ marginLeft: 20 }}>
         <Button
+          style={{ marginRight: 10 }}
           variant="contained"
           color="default"
           onClick={() => history.push('/')}
         >
           Home
+        </Button>
+        <Button
+          variant="contained"
+          color="default"
+          onClick={() => history.push('/upload')}
+        >
+          Upload
         </Button>
       </span>
       <span style={{ float: "right" }}>
@@ -26,7 +37,11 @@ const Header = ({ isAuthenticated, username, logout }) => {
             <Button
               variant="contained"
               color="default"
-              onClick={logout}
+              onClick={() => {
+                axios.post('/users/logout');
+                delete axios.defaults.headers.common['Authorization'];
+                logout();
+              }}
             >
               Logout
             </Button>

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Button } from '@material-ui/core';
-import axios from 'axios';
+import axios from '../axios-config';
 import { login } from '../actions/auth';
 
 const LoginPage = ({ login }) => {
@@ -24,15 +24,16 @@ const LoginPage = ({ login }) => {
         }
         try {
             const response = await axios.post('/users/login', { name, password });
-            history.push('/');
+            axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
             login(response.data);
+            history.push('/');
         } catch (e) {
             setMessage('Unable to login')
         }
     }
 
     return (
-        <div className="login-wrapper">
+        <div className="form-wrapper">
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"

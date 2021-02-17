@@ -19,7 +19,7 @@ const configureStore = () => {
         initialState,
         window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     );
-    console.log(store);
+    
     store.subscribe(() => {
         localStorage.setItem('imageHubState', JSON.stringify(store.getState()));
     })

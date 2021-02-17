@@ -15,17 +15,17 @@ const ImagePostPage = () => {
     fetchImage();
   }, [])
   return (
-    <>
+    <div className="content-wrapper">
       {imageInfo ? (
         <>
           <div className="post-title">{imageInfo.title}</div>
-          <p>Posted by {imageInfo.author.name || 'Anonymous'} on {imageInfo.createdAt}</p>
-          <img src={`/images/${id}/file`} />
+          <p>Posted by {imageInfo.author ? imageInfo.author.name : 'Anonymous'} on {imageInfo.createdAt}</p>
+          <img src={`${process.env.REACT_APP_BACKEND_URL}/images/${id}/file`} />
         </>
       ) : (
         <p>Loading...</p>
       )}
-    </>
+    </div>
   );
 }
 

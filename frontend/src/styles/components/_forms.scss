@@ -1,16 +1,25 @@
-.login-wrapper {
+.form-wrapper {
+    color: #fff;
+    padding: 20px;
+    background-color: $light-grey;
+    border-radius: 10px;
     width: 25%;
-    min-width: 200px;
-    margin: auto;
+    min-width: 300px;
+    margin: 40px auto;
 }
 
-input {
+input[type="text"], input[type="password"] {
     width: 100%;
+    box-sizing: border-box;
     display: block;
     padding: 10px;
     margin: 10px 0;
     border-radius: 5px;
     border: none;
+}
+
+input[type="file"] {
+    padding: 10px 0 20px 0;
 }
 
 input:focus {
@@ -19,6 +28,7 @@ input:focus {
 
 .alert {
     width: 100%;
+    box-sizing: border-box;
     padding: 10px;
     margin: 10px 0;
 }

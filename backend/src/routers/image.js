@@ -8,7 +8,14 @@ const optionalAuth = require('../middleware/optionalAuth')
 const router = express.Router()
 
 const upload = multer({
-    fileSize: 1000000
+    limits: { fileSize: 5000000 },
+    fileFilter: (req, file, cb) => {
+        if (file.originalname.match(/\.(png|jpg|jpeg)$/i)) {
+            cb(null, true)
+        } else {
+            cb(new Error('File must be of type .png, .jpg, or .jpeg'))
+        }
+    }
 })
 
 router.post('/', optionalAuth, upload.single('image'), async (req, res) => {
@@ -26,6 +33,8 @@ router.post('/', optionalAuth, upload.single('image'), async (req, res) => {
     } catch (e) {
         res.status(400).send(e)
     }
+}, (error, req, res, next) => {
+    res.status(400).send({ error: error.message })
 })
 
 router.get('/all', async (req, res) => {

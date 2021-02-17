@@ -4,6 +4,7 @@ import Header from './components/Header';
 import HomePage from './components/HomePage';
 import LoginPage from './components/LoginPage';
 import ImagePostPage from './components/ImagePostPage';
+import UploadPage from './components/UploadPage';
 
 
 const App = () => {
@@ -11,10 +12,13 @@ const App = () => {
     <BrowserRouter>
       <Header />
       <Container>
-        <div className="content-wrapper">
+
           <Switch>
             <Route path="/" exact>
               <HomePage />
+            </Route>
+            <Route path="/upload">
+              <UploadPage />
             </Route>
             <Route path="/login">
               <LoginPage />
@@ -23,7 +27,7 @@ const App = () => {
               <ImagePostPage />
             </Route>
           </Switch>
-        </div>
+
       </Container>
     </BrowserRouter>
   );

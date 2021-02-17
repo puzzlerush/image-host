@@ -10,23 +10,27 @@ import {
   Button,
   Typography
 } from '@material-ui/core';
-
-const useStyles = makeStyles({
-  root: {
-    width: '23vw',
-    maxWidth: 300
-  },
-  media: {
-    height: '23vw',
-    maxHeight: 300
-  },
-});
+import useWindowDimensions from '../hooks/dimensions';
 
 const GridItem = ({ image }) => {
-  const classes = useStyles();
+  const { width } = useWindowDimensions();
+  const numColumns = width > 750 ? 4 : (width > 350 ? 2 : 1); 
+  
+  const useStyles = makeStyles({
+    root: {
+      width: `${80 / numColumns}vw`, 
+      maxWidth: 275
+    },
+    media: {
+      height: `${80 / numColumns}vw`,
+      maxHeight: 275
+    },
+  });
 
+  const classes = useStyles();
+  
   return (
-    <Grid item xs={3}>
+    <Grid item xs={12 / numColumns}>
       <Link to={`/images/${image._id}`} style={{ textDecoration: 'none' }}>
         <Card className={classes.root}>
           <CardActionArea>
