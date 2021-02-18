@@ -28,7 +28,7 @@ const ImagePostPage = ({ authenticatedUsername }) => {
         title: newTitle
       });
       setEditing(false);
-      window.location.reload();
+      fetchImage();
     } else {
       setEditing(true);
     }
