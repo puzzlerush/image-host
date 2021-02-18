@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import { logout } from '../actions/auth';
 import axios from '../axios-config';
@@ -32,7 +32,9 @@ const Header = ({ isAuthenticated, username, logout }) => {
         {isAuthenticated ? (
           <>
             <span className="header-username">
-              {username}
+              <Link to={`/profile/${username}`}>
+                {username}
+              </Link>
             </span>
             <Button
               variant="contained"
