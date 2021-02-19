@@ -6,6 +6,10 @@ const imageSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    privacy: {
+        type: Boolean,
+        default: false
+    },
     file: {
         type: Buffer,
         required: true

@@ -23,6 +23,7 @@ router.post('/', optionalAuth, upload.single('image'), async (req, res) => {
         const buffer = await sharp(req.file.buffer).png().toBuffer()
         const image = new Image({
             title: req.body.title,
+            privacy: req.body.privacy,
             file: buffer
         })
         if (req.user) {
@@ -41,7 +42,7 @@ router.get('/all', async (req, res) => {
     try {
         const limit = parseInt(req.query.limit)
         const skip = parseInt(req.query.skip)
-        const images = await Image.find({}).limit(limit).skip(skip).sort({ 'createdAt': -1 })
+        const images = await Image.find({ privacy: false }).limit(limit).skip(skip).sort({ 'createdAt': -1 })
         res.send(images)
     } catch (e) {
         res.status(400).send(e)

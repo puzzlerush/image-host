@@ -9,11 +9,13 @@ const ImagePostPage = ({ authenticatedUsername }) => {
   const [imageInfo, setImageInfo] = useState(null);
   const [editing, setEditing] = useState(false);
   const [newTitle, setNewTitle] = useState('');
+  const [newPrivacy, setNewPrivacy] = useState(true);
 
   const fetchImage = async () => {
     const response = await axios.get(`/images/${id}`);
     setImageInfo(response.data);
     setNewTitle(response.data.title);
+    setNewPrivacy(response.data.privacy);
   };
 
   useEffect(() => {
@@ -21,20 +23,21 @@ const ImagePostPage = ({ authenticatedUsername }) => {
   }, [])
 
   let history = useHistory();
-  
+
   const handleEditImage = async () => {
     if (editing) {
       const response = await axios.put(`/images/${id}`, {
-        title: newTitle
+        title: newTitle,
+        privacy: newPrivacy
       });
       setEditing(false);
       fetchImage();
     } else {
       setEditing(true);
     }
-    
+
   }
-  
+
   const handleDeleteImage = async () => {
     const response = await axios.delete(`/images/${id}`);
     history.push('/');
@@ -49,6 +52,16 @@ const ImagePostPage = ({ authenticatedUsername }) => {
           ) : <div className="post-title">{imageInfo.title}</div>}
           { imageInfo.author && authenticatedUsername === imageInfo.author.name && (
             <div style={{ float: 'right' }}>
+              {editing && (
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={newPrivacy}
+                    onChange={(e) => setNewPrivacy(!newPrivacy)}
+                  />
+                  {' Private'}
+                </label>
+              )}
               <a href="#" style={{ marginRight: 10 }} onClick={handleEditImage}>{editing ? 'Save' : 'Edit'}</a>
               <a href="#" onClick={handleDeleteImage}>Delete</a>
             </div>
@@ -57,7 +70,7 @@ const ImagePostPage = ({ authenticatedUsername }) => {
             <Link to={`/profile/${imageInfo.author.name}`}>
               {imageInfo.author.name}
             </Link>
-            ) : 'Anonymous'} on {moment(imageInfo.createdAt).format('LL')}</p>
+          ) : 'Anonymous'} on {moment(imageInfo.createdAt).format('LL')}</p>
 
           <img src={`${process.env.REACT_APP_BACKEND_URL}/images/${id}/file`} />
         </>

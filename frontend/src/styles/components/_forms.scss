@@ -22,6 +22,11 @@ input[type="file"] {
     padding: 10px 0 20px 0;
 }
 
+label {
+    display: block;
+    margin-bottom: 15px;
+}
+
 input:focus {
     outline: none;
 }

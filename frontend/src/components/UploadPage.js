@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import axios from '../axios-config';
 
-const UploadPage = () => {
+const UploadPage = ({ isAuthenticated }) => {
     const [title, setTitle] = useState('');
+    const [privacy, setPrivacy] = useState(false)
     const [file, setFile] = useState(null);
 
     const [message, setMessage] = useState('');
@@ -26,6 +28,7 @@ const UploadPage = () => {
 
         let data = new FormData();
         data.append('title', title);
+        data.append('privacy', privacy);
         data.append('image', file);
 
         axios.post('/images', data).then((response) => {
@@ -48,6 +51,17 @@ const UploadPage = () => {
                     type="file"
                     onChange={(e) => setFile(e.target.files[0])}
                 />
+                {isAuthenticated && (
+                    <label>
+                        <input
+                            type="checkbox"
+                            checked={privacy}
+                            onChange={(e) => setPrivacy(!privacy)}
+                        />
+                        {' Private'}
+                    </label>
+                )}
+
                 <Button type="submit" variant="contained">
                     Upload
                 </Button>
@@ -57,4 +71,8 @@ const UploadPage = () => {
     );
 };
 
-export default UploadPage;
+const mapStateToProps = (state) => ({
+    isAuthenticated: !!state.token
+});
+
+export default connect(mapStateToProps)(UploadPage);

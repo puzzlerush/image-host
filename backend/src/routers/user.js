@@ -1,6 +1,8 @@
 const express = require('express')
 const User = require('../models/user')
+const Image = require('../models/image')
 const auth = require('../middleware/auth')
+const optionalAuth = require('../middleware/optionalAuth')
 const { response } = require('express')
 
 const router = express.Router()
@@ -52,14 +54,18 @@ router.get('/:name', async (req, res) => {
     }
 })
 
-router.get('/:name/images', async (req, res) => {
+router.get('/:name/images', optionalAuth, async (req, res) => {
     try {
         const user = await User.findOne({ name: req.params.name.toLowerCase() })
         if (!user) {
             return res.status(404).send()
         }
-        await user.populate({ path: 'images' }).execPopulate()
-        res.send(user.images)
+        const query = { author: user._id, privacy: false };
+        if (req.user && req.user.name === user.name) {
+            delete query.privacy
+        }
+        const images = await Image.find(query).sort({ 'createdAt': -1 })
+        res.send(images)
     } catch (e) {
         res.status(500).send(e)
     }
